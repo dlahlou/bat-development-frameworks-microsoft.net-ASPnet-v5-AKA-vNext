@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#----------------------------------------------------------------------------------
+# moljac delta
+# start usb0 for android tethering
+# TODO: check if turning on tethering on Android
+#         starts usb0 automatically
+sudo ifup usb0
+
+exec 2> /tmp/rc.local.log      # send stderr from rc.local to a log file
+exec 1>&2                      # send stdout to the same log file
+set -x                         # tell sh to display commands before execution
+
+(\
+    su pi -c \
+    '\
+        export PATH=$PATH:/home/pi/.k/runtimes/kre-mono.1.0.0-beta3/bin;\
+        export PATH=$PATH:/home/pi/.dnx/runtimes/dnx-mono.1.0.0-beta5-11579/bin;\
+        export PATH=$PATH:/usr/local/sbin;\
+        dnx /var/www/test-aspnet-v5-01.holisticware.net kestrel &
+    '\
+)&
+
+# ( \
+#    export PATH=$PATH:/home/pi/.k/runtimes/kre-mono.1.0.0-beta3/bin;\
+#    export PATH=$PATH:/home/pi/.dnx/runtimes/dnx-mono.1.0.0-beta5-11579/bin;\
+#    export PATH=$PATH:/usr/local/sbin;\
+#    /home/pi/.dnx/runtimes/dnx-mono.1.0.0-beta5-11579/bin/dnx \
+#        /var/www/test-aspnet-v5-01.holisticware.net \
+#        kestrel \
+# )&
+#----------------------------------------------------------------------------------
+
