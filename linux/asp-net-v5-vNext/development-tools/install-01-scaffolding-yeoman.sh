@@ -7,7 +7,8 @@ SUDO=sudo
 $SUDO \
 	apt-get -y \
 		install \
-		nodejs-legacy
+		nodejs-legacy \
+		npm
 
 #-------------------------------------------
 # grunt
